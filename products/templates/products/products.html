@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .price-text {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #333;
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="mb-4">상품 목록</h2>
+
+    <div class="d-flex justify-content-between mb-4">
+        <form action="" method="GET" id="prdForm" class="d-flex">
+            {% csrf_token %}
+            <button type="submit" name="sort" value="latest" class="btn btn-outline-primary me-2">최신순</button>
+            <button type="submit" name="sort" value="popular" class="btn btn-outline-secondary">인기순</button>
+        </form>
+
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'articles:create' %}" class="btn btn-success ms-auto">새로운 글작성</a>
+        {% else %}
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary ms-auto">로그인하고 글 작성하기</a>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <a href="{% url 'articles:article_detail' article.pk %}" class="text-decoration-none text-dark">
+                <div class="card h-100 border-0 shadow-sm">
+                    {% if article.image %}
+                    <img src="{{ article.image.url }}" class="card-img-top" alt="{{ article.title }}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 15px 15px 0 0;">
+                    {% endif %}
+                    <div class="card-body bg-light p-2">
+                        <h6 class="card-title">{{ article.title }}</h6>
+                        <p class="card-text price-text">{{ article.formatted_price }}원</p>
+                        <p class="card-text">찜수: {{ article.like_count }} 조회수: {{ article.views }}</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -22,6 +22,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', views.main, name='main'),
-    path('accounts/', include('accounts.urls')),
+    path('api/accounts/', include('accounts.urls')),
+    path('api/products/', include('products.urls')),
     path('', lambda request: redirect('main/')),
 ]
