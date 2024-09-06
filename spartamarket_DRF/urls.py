@@ -24,5 +24,6 @@ urlpatterns = [
     path('main/', views.main, name='main'),
     path('api/accounts/', include('accounts.urls')),
     path('api/products/', include('products.urls')),
+    path('api/users/', include('users.urls')),
     path('', lambda request: redirect('main/')),
 ]
